@@ -4,7 +4,7 @@ require('../modules/officer');//the schema for the officer
 require('../modules/trainer');//the schema for the trainer
 require('../modules/trainee');//the schema for the trainee
 
-let url = props.url;//a url for the connection to occur with
+let url = 'mongodb://localhost:27017/courseDB';//a url for the connection to occur with
 
 let db= mongoose.connection;//creates a variable out of the connection
 
