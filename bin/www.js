@@ -7,7 +7,7 @@ const homeRoute = require('../routes/homeRoute');
 
 var app = express();//makes a variable out of the server's action list
 
-app.use('/',homeRoute);
+app.use('/',homeRoute);//route for the home page
 
 app.listen(3000,()=>{
     console.log("Server runnig at port: 3000")

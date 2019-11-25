@@ -26,7 +26,6 @@ db.on('disconnected',()=>{
 //connects with the specified url we gave it, and sets the settings to stop all possible depracations
 mongoose.connect(url,{
     useNewUrlParser:true,
-    userCreateIndex:true,
     useFindAndModify:false,
     useUnifiedTopology:true
 });

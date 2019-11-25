@@ -1,7 +1,7 @@
 const express = require('express');
 var router = express.Router();
 
-exports.get('/',(req,res) =>{
+router.get('/',(req,res) =>{
     res.json('placeholder');
 });
 
