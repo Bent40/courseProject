@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 
-require('../modules/officer');//the schema for the officer
-require('../modules/trainer');//the schema for the trainer
-require('../modules/trainee');//the schema for the trainee
+require('../modules/officerSchema');//the schema for the officer
+require('../modules/trainerScheme');//the schema for the trainer
+require('../modules/traineeScheme');//the schema for the trainee
 
 let url = 'mongodb://localhost:27017/courseDB';//a url for the connection to occur with
 
@@ -30,3 +30,18 @@ mongoose.connect(url,{
     useUnifiedTopology:true
 });
 
+insert = (obj) =>{
+    console.log(obj);
+    /*const offiSchem = new schema({
+        fullName: obj.fullname,
+        id: obj.id,
+        pass: obj.password
+    })//tries to connect to db and post it in the db
+    try{
+        const sentOfficer = await offiSchem.save();
+        return sentOfficer;
+    }//prints out any errors that might have occured
+    catch(err){
+        return {message: err};
+    }*/
+}

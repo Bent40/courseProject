@@ -1,14 +1,16 @@
 const express = require("express");
 const router = express.Router();
+const officer = require('../modules/officer');
 
 //returns to the home page a simple text
 router.get('/',(req,res)=>{
-    res.send('this is the home page');
+    res.send(req.body.fullName);
 })
 
 //here to test posts, just to see what req.body gives
 router.post('/', (req,res) =>{
-    console.log(req.body);
+    const newofficer = new officer(req.body.fullName,req.body.id,req.body.pass);
+    res.json(newofficer.saveOfficer());
 })
 
 module.exports = router;

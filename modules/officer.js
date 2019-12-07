@@ -1,15 +1,19 @@
-const mongoose = require('mongoose');
+const db = require("../DB/db");
 
-var officerSchema = new mongoose.Schema({
-    fullName:{//full name of the officer
-        type:String
-    },
-    id:{//officer's id
-        type:String
-    },
-    pass:{//officer's password
-        type:String
+class officer{
+
+    constructor(fullname,id,password){
+        this.fullname = fullname;
+        this.id = id;
+        this.password = password;
     }
-})
-//exports the officer to any file that requires it
-mongoose.model('officer',officerSchema);
+    //makes an officer with the required schema
+    saveOfficer(){
+        //db.insert(url,collection,this.officer2Json);
+        return (db.insert(this.officer2Json()));
+    }
+    officer2Json(){
+        return {fullname:this.fullname,id:this.id,pass:this.password};
+    }
+}
+module.exports = officer;

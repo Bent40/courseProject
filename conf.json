@@ -1,0 +1,9 @@
+{
+    "dbs":[{
+        "name":"ben",
+        "url":"mongodb://localhost:27017",
+        "dbs":["",""],
+        "collections":["",""],
+        "env":""
+    }]
+}
