@@ -29,10 +29,8 @@ mongoose.connect(url,{
     useFindAndModify:false,
     useUnifiedTopology:true
 });
-
-insert = (obj) =>{
-    console.log(obj);
-    /*const offiSchem = new schema({
+insertAll = async(obj)=>{
+    const offiSchem = new schema({
         fullName: obj.fullname,
         id: obj.id,
         pass: obj.password
@@ -43,5 +41,24 @@ insert = (obj) =>{
     }//prints out any errors that might have occured
     catch(err){
         return {message: err};
-    }*/
+    }
 }
+
+class dbActions{
+    insert = async(obj)=>{
+        const offiSchem = new schema({
+            fullName: obj.fullname,
+            id: obj.id,
+            pass: obj.password
+        })//tries to connect to db and post it in the db
+        try{
+            const sentOfficer = await offiSchem.save();
+            return sentOfficer;
+        }//prints out any errors that might have occured
+        catch(err){
+            return {message: err};
+        }
+    }
+}
+
+module.exports = dbActions;
