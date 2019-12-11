@@ -6,57 +6,57 @@ require('../modules/traineeScheme');//the schema for the trainee
 
 let url = 'mongodb://localhost:27017/courseDB';//a url for the connection to occur with
 
-let db= mongoose.connection;//creates a variable out of the connection
+let db = mongoose.connection;//creates a variable out of the connection
 
 //if the connection succeeds, start function
-db.once('open', ()=>{
+db.once('open', () => {
     console.log('Successfully connected');
 })
 
 //if the connection fails, print
-db.on('error',e => {
+db.on('error', e => {
     console.log(e);
 })
 
 //if the connection gets cut off
-db.on('disconnected',()=>{
+db.on('disconnected', () => {
     console.log('Disconnected from db')
 })
 
 //connects with the specified url we gave it, and sets the settings to stop all possible depracations
-mongoose.connect(url,{
-    useNewUrlParser:true,
-    useFindAndModify:false,
-    useUnifiedTopology:true
+mongoose.connect(url, {
+    useNewUrlParser: true,
+    useFindAndModify: false,
+    useUnifiedTopology: true
 });
-insertAll = async(obj)=>{
+const insert = async (obj) => {
     const offiSchem = new schema({
         fullName: obj.fullname,
         id: obj.id,
         pass: obj.password
     })//tries to connect to db and post it in the db
-    try{
+    try {
         const sentOfficer = await offiSchem.save();
         return sentOfficer;
     }//prints out any errors that might have occured
-    catch(err){
-        return {message: err};
+    catch (err) {
+        return { message: err };
     }
 }
 
-class dbActions{
-    insert = async(obj)=>{
+const dbActions = () => {
+    const insert = async(obj) => {
         const offiSchem = new schema({
             fullName: obj.fullname,
             id: obj.id,
             pass: obj.password
         })//tries to connect to db and post it in the db
-        try{
+        try {
             const sentOfficer = await offiSchem.save();
             return sentOfficer;
         }//prints out any errors that might have occured
-        catch(err){
-            return {message: err};
+        catch (err) {
+            return { message: err };
         }
     }
 }
