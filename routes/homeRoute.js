@@ -4,7 +4,7 @@ const officer = require('../modules/officer');
 
 //returns to the home page a simple text
 router.get('/',(req,res)=>{
-    res.send(req.body.fullName);
+    res.send
 })
 
 //here to test posts, just to see what req.body gives

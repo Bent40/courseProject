@@ -1,4 +1,5 @@
-const { dbActions } = require("../DB/db");
+const dbActions = require("../DB/db");
+const db = new dbActions();
 
 class officer {
 
@@ -13,8 +14,7 @@ class officer {
     }
     //makes an officer with the required schema
     saveOfficer() {
-        //db.insert(url,collection,this.officer2Json);
-        return (dbActions.insert(this.officer2Json()));
+        return (db.insert(this.officer2Json()));
     }
 }
 module.exports = officer;

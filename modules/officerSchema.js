@@ -13,4 +13,4 @@ const officerSchema = new mongoose.Schema({
 
 })
 //exports the officer to any file that requires it
-mongoose.model('officerSchema', officerSchema);
+module.exports = mongoose.model('officerSchema', officerSchema);
