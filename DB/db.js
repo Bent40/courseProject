@@ -28,33 +28,22 @@ mongoose.connect(url, {
     useUnifiedTopology: true
 });
 
-class dbActions {//class that holds all of our functions that we wish to import to other places
-    insert(obj) {//class function
-        const runSave = (obj, async(resolve,reject) => {
-            const offiSchem = new schema({//creates a schema using the info from obj
-                fullName: obj.fullname,
-                id: obj.id,
-                pass: obj.pass
-            })//tries to connect to db and post it in the db
-            try {
-                const sentOfficer = await offiSchem.save();//sends the schema to the database
-                resolve(sentOfficer);
-            }//prints out any errors that might have occured
-            catch (err) {
-                reject(err);
-            }
-        })
-        runSave(obj)//call for the async function
-        .then(resolve =>{console.log(resolve)})
-        .catch(reject =>{console.log(reject)});
-    }
-    find(obj){
-        const runfind = async(obj) =>{
-            const res = await schema.find();
-            return res;
-        }
-        console.log(runfind(obj));//call for async function
+const save =async (req, res) => {
+    const offiSchem = new schema({//creates a schema using the info from obj
+        fullName: req.body.fullname,
+        id: req.body.id,
+        pass: req.body.pass
+    })//tries to connect to db and post it in the db
+    try {
+        const sentOfficer = await offiSchem.save();//sends the schema to the database
+        resolve(sentOfficer);
+    }//prints out any errors that might have occured
+    catch (err) {
+        reject(err);
     }
 }
 
-module.exports = dbActions;
+const find = async (req,res) => {
+}
+
+module.exports={find,save};

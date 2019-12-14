@@ -1,5 +1,4 @@
-const dbActions = require("../DB/db");
-const db = new dbActions();
+const db = require("../DB/db");
 
 class officer {
 
@@ -9,12 +8,9 @@ class officer {
         this.password = password;
     }
 
-    officer2Json() {
-        return { fullname: this.fullname, id: this.id, pass: this.password };
-    }
     //makes an officer with the required schema
     saveOfficer() {
-        return (db.insert(this.officer2Json()));
+        return db.save();
     }
 }
 module.exports = officer;
