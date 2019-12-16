@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const fileModule = require('../modules/generalModule');
+const fileModule = require('../modules/files');
 
 //returns to the home page a simple text
 router.get('/:id',async(req,res)=>{

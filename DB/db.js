@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const schema = require('../modules/generalScheme');//the schema for the officer
+const schema = require('../modules/fileScheme');//the schema for the officer
 
 let url = 'mongodb://localhost:27017/courseDB';//a url for the connection to occur with
 
