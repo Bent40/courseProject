@@ -1,23 +1,35 @@
 const express = require("express");
 const router = express.Router();
-const officer = require('../modules/officer');
+const fileModule = require('../modules/generalModule');
 
 //returns to the home page a simple text
 router.get('/:id',(req,res)=>{
-    const newofficer = new officer("",req.params.id,"")
-    res.send(newofficer.findOfficer())
+    const newFile = new fileModule(req.params.id,"","")
+    const foundFiles = await newFile.find();
+    res.json(foundFiles);
+})
+
+router.get('/',(req,res)=>{
+    const newFile = new fileModule("","","")
+
 })
 
 //here to test posts, just to see what req.body gives
-router.post('/', (req,res) =>{
-    const newofficer = new officer(req.body.fullName,req.body.id,req.body.pass);
-    res.json(newofficer.saveOfficer());
+router.post('/', async(req,res) =>{
+    const newFile = new fileModule(req.body.id, req.body.fileName,req.body.fileInfo);
+
 })
 
 router.delete('/:id',(req,res)=>{
-    const newofficer = new officer("",req.params.id,"");
-    res.json(newofficer.removeOfficer());
+    const newFile = new fileModule(req.params.id,"","");
+    const deletedFiles = await newFile.delete();
+    res.json(deletedFiles);
 })
 
-router.put('/:id')
+router.put('/:id',(req,res)=>{
+    const newFile = new fileModule(req.params.id,"","");
+    const updatedFiles = await newFile.update();
+    res.json(updatedFiles);
+})
+
 module.exports = router;
