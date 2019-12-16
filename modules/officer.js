@@ -8,9 +8,19 @@ class officer {
         this.password = password;
     }
 
+    officer2Json(){
+        return {fullname:this.fullname, id:this.id,pass:this.password}
+    }
+    
     //makes an officer with the required schema
     saveOfficer() {
-        return db.save();
+        db.save({body:this.officer2Json()})
+    }
+    findOfficer(){
+        db.getAll({body:this.officer2Json()})
+    }
+    removeOfficer(){
+        db.remove({body:this.officer2Json()});
     }
 }
 module.exports = officer;

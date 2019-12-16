@@ -22,13 +22,14 @@ db.on('disconnected', () => {
 })
 
 //connects with the specified url we gave it, and sets the settings to stop all possible depracations
-mongoose.connect(url, {
+connection = {
     useNewUrlParser: true,
     useFindAndModify: false,
     useUnifiedTopology: true
-});
+};
 
-const save =async (req, res) => {
+const save =(async(req,res) => {
+    mongoose.connect(url,connection);
     const offiSchem = new schema({//creates a schema using the info from obj
         fullName: req.body.fullname,
         id: req.body.id,
@@ -36,14 +37,64 @@ const save =async (req, res) => {
     })//tries to connect to db and post it in the db
     try {
         const sentOfficer = await offiSchem.save();//sends the schema to the database
-        resolve(sentOfficer);
+        console.log(sentOfficer);
     }//prints out any errors that might have occured
     catch (err) {
-        reject(err);
+        console.log(err);
+    }
+    finally{
+        mongoose.disconnect();;
+    }
+});
+
+
+const getAll = async (req,res) => {
+    mongoose.connect(url,connection);
+    try{
+        const allFiles = await schema.find();
+        console.log(allFiles);
+    }
+    catch(err){
+        console.log(err);        
+    }
+    finally{
+    mongoose.disconnect();
     }
 }
 
-const find = async (req,res) => {
+const remove = async(req,res)=>{
+    mongoose.connect(url,connection);
+    try{
+        const removedOfficer = await schema.deleteMany({id:req.body.id});
+        console.log(removedOfficer);
+    }
+    catch(err){
+        console.log(err);
+        
+    }
+    finally{
+        mongoose.disconnect();
+    }
 }
 
-module.exports={find,save};
+const update = async(req,res)=>{
+    mongoose.connect(url,connection);
+    try{
+        const removedOfficer = await schema.update({id:req.body.id},{
+            $set:{
+                fullname:req.body.fullName,
+                id:req.body.id,
+                pass:req.body.pass
+            }
+        });
+        console.log(removedOfficer);
+    }
+    catch(err){
+        console.log(err);
+        
+    }
+    finally{
+        mongoose.disconnect();
+    }
+}
+module.exports={getAll,save,remove,update};
