@@ -18,7 +18,8 @@ router.get('/',async(req,res)=>{
 //here to test posts, just to see what req.body gives
 router.post('/', async(req,res) =>{
     const newFile = new fileModule(req.body.id, req.body.fileName,req.body.fileInfo);
-
+    const sentFiles = await newFile.save();
+    res.json(sentFiles);
 })
 
 router.delete('/:id',async(req,res)=>{
@@ -28,8 +29,8 @@ router.delete('/:id',async(req,res)=>{
 })
 
 router.put('/:id',async(req,res)=>{
-    const newFile = new fileModule(req.params.id,"","");
-    const updatedFiles = await newFile.update();
+    const newFile = new fileModule(req.body.id,req.body.fileName,req.body.fileInfo);
+    const updatedFiles = await newFile.update({params:req.params});
     res.json(updatedFiles);
 })
 

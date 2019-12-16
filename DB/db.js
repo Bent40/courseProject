@@ -14,8 +14,7 @@ db.once('open', () => {
 //if the connection fails, print
 db.on('error', e => {
     console.log(e);
-})
-
+}) 
 //if the connection gets cut off
 db.on('disconnected', () => {
     console.log('Disconnected from db')
@@ -28,7 +27,7 @@ connection = {
     useUnifiedTopology: true
 };
 
-const save =(async(req,res) => {
+const save =async(req,res) => {
     mongoose.connect(url,connection);
     const file = new schema({//creates a schema using the info from obj
         id: req.body.id,
@@ -43,13 +42,13 @@ const save =(async(req,res) => {
     catch (err) {
         return err;
     }
-});
+}
 
 
 const getAll = async (req,res) => {
     mongoose.connect(url,connection);
     try{
-        const allFiles = await schema.find(req.body);
+        const allFiles = await schema.find();
         return  allFiles
     }
     catch(err){
@@ -61,7 +60,7 @@ const remove = async(req,res)=>{
     mongoose.connect(url,connection);
     try{
         const removedFiles = await schema.deleteMany({id:req.body.id});
-        return removedFiles
+        return removedFiles;
     }
     catch(err){
         return err;
@@ -72,14 +71,14 @@ const remove = async(req,res)=>{
 const update = async(req,res)=>{
     mongoose.connect(url,connection);
     try{
-        const updatedFiles = await schema.update({id:req.body.id},{
+        const updatedFiles = await schema.updateMany({id:req.params.id},{
             $set:{
                 id:req.body.id,
                 fileName:req.body.fileName,
                 fileInfo:req.body.fileInfo
             }
         });
-        return updatedFiles
+        return updatedFiles;
     }
     catch(err){
         return err;

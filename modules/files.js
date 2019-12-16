@@ -28,8 +28,8 @@ class file {
         return removedFiles;
     }
 
-    async update(){
-        const updatedFiles =  await db.update({body:this.file2Json()})
+    async update(req,res){
+        const updatedFiles =  await db.update({params:req.params, body:this.file2Json()})
         return updatedFiles;
     }
 }
