@@ -1,87 +1,64 @@
-const mongoose = require('mongoose');
+const driver = require('mongo-driver');
 
-const schema = require('../modules/fileScheme');//the schema for the officer
-
-let url = 'mongodb://localhost:27017/courseDB';//a url for the connection to occur with
-
-let db = mongoose.connection;//creates a variable out of the connection
-
-//if the connection succeeds, start function
-db.once('open', () => {
-    console.log('Successfully connected');
-})
-
-//if the connection fails, print
-db.on('error', e => {
-    console.log(e);
-}) 
-//if the connection gets cut off
-db.on('disconnected', () => {
-    console.log('Disconnected from db')
-})
-
-//connects with the specified url we gave it, and sets the settings to stop all possible depracations
-connection = {
-    useNewUrlParser: true,
-    useFindAndModify: false,
-    useUnifiedTopology: true
-};
-
-const save =async(req,res) => {
-    mongoose.connect(url,connection);
-    const file = new schema({//creates a schema using the info from obj
-        id: req.body.id,
-        fileName: req.body.fileName,
-        fileInfo: req.body.fileInfo
-    })//tries to connect to db and post it in the db
+const insert = async (url, collection, req, res) => {
     try {
-        const savedFile = await file.save();//sends the schema to the database
-        console.log("Success");
-        return savedFile;
-    }//prints out any errors that might have occured
-    catch (err) {
-        return err;
+       const result = await driver.connect(url)
+            .then(async (db) => {
+                console.log("successfully connected");
+                const savedDocs = await db.insert(collection, req.body)
+                return savedDocs;
+            })
+            return result;
+    }
+    catch (e) {
+        return e;
     }
 }
 
-
-const getAll = async (req,res) => {
-    mongoose.connect(url,connection);
-    try{
-        const allFiles = await schema.find();
-        return  allFiles
+const find = async (url, collection, req, res) => {
+    try {
+        const result = await driver.connect(url)
+            .then(async (db) => {
+                console.log("successfully connected");
+                const foundDocs = await db.find(collection,req.params,req.query);
+                return foundDocs;
+            })
+            .catch((err) => {return err})
+            return result;
     }
-    catch(err){
-        return err;
-    }
-}
-
-const remove = async(req,res)=>{
-    mongoose.connect(url,connection);
-    try{
-        const removedFiles = await schema.deleteMany({id:req.body.id});
-        return removedFiles;
-    }
-    catch(err){
-        return err;
-        
+    catch (e) {
+        return e;
     }
 }
 
-const update = async(req,res)=>{
-    mongoose.connect(url,connection);
-    try{
-        const updatedFiles = await schema.updateMany({id:req.params.id},{
-            $set:{
-                id:req.body.id,
-                fileName:req.body.fileName,
-                fileInfo:req.body.fileInfo
-            }
-        });
-        return updatedFiles;
+const update = async (url, collection, req, res) => {
+    try {
+        const result = await driver.connect(url)
+            .then(async (db) => {
+                console.log("successfully connected");
+                const updatedDocs = await db.update(collection,req.params,{$set:req.body});
+                return updatedDocs;
+            })
+            .catch((err) => {return err})
+            return result;
     }
-    catch(err){
-        return err;
+    catch (e) {
+        return e;
     }
 }
-module.exports={getAll,save,remove,update};
+const remove = async (url, collection, req, res) => {
+    try {
+        const result = await driver.connect(url)
+            .then(async (db) => {
+                console.log("successfully connected");
+                const removedDocs = await db.removeMultiple(collection,req.params);
+                return removedDocs;
+            })
+            .catch((err) => {return err})
+            return result;
+    }
+    catch (e) {
+        return e;
+    }
+}
+module.exports = { insert, find, update, remove };
