@@ -1,42 +1,97 @@
 const express = require("express");
 const router = express.Router();
-const fileModule = require('../modules/files');
+const fileModule = require('../modules/files');//the module through which the file's db actions are accessed
 
-//returns to the home page a simple text
-router.get('/:id',async(req,res)=>{    
-    const foundFiles = await fileModule.find({params:req.params,query:req.query});
-    res.json(foundFiles);
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// requests to search the db for a file through its id and given sorting methods
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+router.get('/:id', async (req, res) => {
+    try {
+        const foundFiles = await fileModule.find({ params: req.params, query: req.query });
+        res.json(foundFiles);
+    }
+    catch (err) {
+        res.json(err);
+    }
 })
 
-router.get('/',async(req,res)=>{
-    const foundFiles = await fileModule.find();
-    res.json(foundFiles);
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// requests to search the db for all files
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+router.get('/', async (req, res) => {
+    try {
+        const foundFiles = await fileModule.find();
+        res.json(foundFiles);
+    }
+    catch (err) {
+        res.json(err);
+    }
 })
 
-//here to test posts, just to see what req.body gives
-router.post('/', async(req,res) =>{
-    const sentFiles = await fileModule.save({body:req.body});
-    
-    res.json(sentFiles);
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// requests to insert a file into the collection with the request's body as the object inserted
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+router.post('/', async (req, res) => {
+    try {
+        const sentFiles = await fileModule.save({ body: req.body });
+        res.json(sentFiles);
+    }
+    catch (err) {
+        res.json(err);
+    }
 })
 
-router.delete('/:id',async(req,res)=>{
-    const deletedFiles = await fileModule.remove({params:req.params});
-    res.json(deletedFiles);
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// requests to delete a file by sending the parameters to which it corresponds
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+router.delete('/:id', async (req, res) => {
+    try {
+        const deletedFiles = await fileModule.remove({ params: req.params });
+        res.json(deletedFiles);
+    }
+    catch (err) {
+        res.json(err);
+    }
 })
 
-router.delete('/',async(req,res)=>{
-    const deletedFiles = await fileModule.remove();
-    res.json(deletedFiles);
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//requests to delete all files in a collection, causing a total wipe of it
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+router.delete('/', async (req, res) => {
+    try {
+        const deletedFiles = await fileModule.remove();
+        res.json(deletedFiles);
+    }
+    catch (err) {
+        res.json(err);
+    }
 })
 
-router.put('/:id',async(req,res)=>{
-    const updatedFiles = await fileModule.update({params:req.params,body:req.body});
-    res.json(updatedFiles);
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// requests to update a file by sending the id in the parameters and the new body in the request's body
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+router.put('/:id', async (req, res) => {
+    try {
+        const updatedFiles = await fileModule.update({ params: req.params, body: req.body });
+        res.json(updatedFiles);
+    }
+    catch (err) {
+        res.json(err);
+    }
 })
-router.put('/',async(req,res)=>{
-    const updatedFiles = await fileModule.update({ body:req.body});
-    res.json(updatedFiles);
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// requests to update all files, creating a mass change in the collection
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+router.put('/', async (req, res) => {
+    try {
+        const updatedFiles = await fileModule.update({ body: req.body });
+        res.json(updatedFiles);
+    }
+    catch (err) {
+        res.json(err);
+    }
 })
 
 module.exports = router;
