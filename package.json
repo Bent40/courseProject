@@ -12,6 +12,6 @@
   "dependencies": {
     "express": "^4.17.1",
     "mongo-driver": "^1.3.3",
-    "mongoose": "^5.7.9"
+    "mongoose": "^5.13.15"
   }
 }
